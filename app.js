@@ -1,27 +1,12 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const config = require("./config.json")
+const Department = require("./lib/Department")
+const Role = require("./lib/Role")
+const Employee = require("./lib/Employee")
 var connection = mysql.createConnection(config)
 
-class Department{
-    constructor(name){
-        this.name = name
-    }
-}
 
-class Role{
-    constructor(title,salary){
-        this.title = title
-        this.salary = salary
-    }
-}
-
-class Employee{
-    constructor(firstName,lastName){
-        this.first_name = firstName
-        this.last_name = lastName
-    }
-}
 
 
 starter = () => {
