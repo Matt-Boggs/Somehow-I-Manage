@@ -33,7 +33,7 @@ starter = () => {
         type: "list",
         message: "What would you like to do?",
         name: "choice",
-        choices: ["Add department","Add role","Add employee"]
+        choices: ["Add department","Add role","Add employee","View a table"]
     }).then((response) => {
         choice = response.choice
         switch(choice){
@@ -45,6 +45,9 @@ starter = () => {
                 break;
             case "Add employee":
                 addEmp()
+                break;
+            case "View a table":
+                viewTable()
                 break;
             default:
                 starter()
@@ -130,20 +133,17 @@ viewTable =() => {
             type: "list",
             message: "What would you like to view?",
             name: "tbltype",
-            choices: ["Departments","Roles","Employees"]
+            choices: ["department","role","employee"]
         }
     ).then((res)=>{
-        switch(res.tbltype){
-            case "Departments":
-                //
-                break;
-            case "Roles":
-                //
-                break;
-            case "Employees":
-                //
-                break;
-        }
+        let ask = connection.query("SELECT * FROM " + res.tbltype,(err,res)=>{
+            if (err) throw err;
+            console.log("=========================================")
+            console.table(res)
+            console.log("======================================")
+            connection.end();
+        })
+        // starter()
     })
 }
 starter();
