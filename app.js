@@ -28,12 +28,13 @@ class Employee{
     }
 }
 
+
 starter = () => {
     inquirer.prompt({
         type: "list",
         message: "What would you like to do?",
         name: "choice",
-        choices: ["Add department","Add role","Add employee","View a table"]
+        choices: ["Add department","Add role","Add employee","View a table","Update an employees role"]
     }).then((response) => {
         choice = response.choice
         switch(choice){
@@ -48,6 +49,9 @@ starter = () => {
                 break;
             case "View a table":
                 viewTable()
+                break;
+            case "Update an employees role":
+                updateRole()
                 break;
             default:
                 starter()
@@ -115,6 +119,8 @@ addEmp = () => {
     ]).then((res)=>{
         console.log(res)
         let newEmp = new Employee(res.firstName,res.lastName)
+        employeeArr.push(newEmp)
+        console.log(employeeArr)
         let ask = connection.query(
             "INSERT INTO employee SET ?",
             newEmp,
@@ -127,7 +133,7 @@ addEmp = () => {
     })
 }
 
-viewTable =() => {
+viewTable = () => {
     inquirer.prompt(
         {
             type: "list",
@@ -138,12 +144,44 @@ viewTable =() => {
     ).then((res)=>{
         let ask = connection.query("SELECT * FROM " + res.tbltype,(err,res)=>{
             if (err) throw err;
-            console.log("=========================================")
-            console.table(res)
-            console.log("======================================")
+            console.log("\n=========================================\n")
+            // console.table(res)
+            console.log(res)
+            console.log("\n=========================================\n")
             connection.end();
         })
         // starter()
     })
+}
+
+
+// THIS CAN BE MADE INTO UPDATETABLE LATER ON
+updateRole = () => {
+    let employeeArr = []
+    connection.query(
+        "SELECT * FROM employee",
+        (err,res)=>{
+            if (err) throw err;
+            res.forEach(emp => {
+                currEmp = (emp.first_name + " " + emp.last_name)
+                console.log(currEmp)
+                employeeArr.push(currEmp)
+            });
+            connection.end()
+
+    inquirer.prompt({
+        type: "list",
+        message: "Which employee are you updating?",
+        name: "empUp",
+        choices: employeeArr
+    }).then((res)=>{
+        console.log(res)
+    })
+    // let ask = connection.query(
+    //     "UPDATE role SET ? WHERE ?",
+
+    // )
+})
+
 }
 starter();
