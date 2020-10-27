@@ -1,12 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-var connection = mysql.createConnection({
-    host: "localhost",
-    PORT: 3306,
-    user: "root",
-    password: "Funhaus3121!",
-    database: "teamDB"
-})
+const config = require("./config.json")
+var connection = mysql.createConnection(config)
 
 class Department{
     constructor(name){
@@ -119,8 +114,6 @@ addEmp = () => {
     ]).then((res)=>{
         console.log(res)
         let newEmp = new Employee(res.firstName,res.lastName)
-        employeeArr.push(newEmp)
-        console.log(employeeArr)
         let ask = connection.query(
             "INSERT INTO employee SET ?",
             newEmp,
@@ -176,11 +169,12 @@ updateRole = () => {
         choices: employeeArr
     }).then((res)=>{
         console.log(res)
-    })
-    // let ask = connection.query(
-    //     "UPDATE role SET ? WHERE ?",
+        // let ask = connection.query(
+        // "UPDATE role SET ? WHERE ?",
 
-    // )
+        // )
+    })
+    
 })
 
 }
