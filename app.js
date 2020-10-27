@@ -124,4 +124,26 @@ addEmp = () => {
     })
 }
 
+viewTable =() => {
+    inquirer.prompt(
+        {
+            type: "list",
+            message: "What would you like to view?",
+            name: "tbltype",
+            choices: ["Departments","Roles","Employees"]
+        }
+    ).then((res)=>{
+        switch(res.tbltype){
+            case "Departments":
+                //
+                break;
+            case "Roles":
+                //
+                break;
+            case "Employees":
+                //
+                break;
+        }
+    })
+}
 starter();
