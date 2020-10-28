@@ -6,6 +6,9 @@ const Role = require("./lib/Role")
 const Employee = require("./lib/Employee")
 var connection = mysql.createConnection(config)
 
+let employeeArr = []
+let roleArr = []
+
 grabEmpArr = () => {
     connection.query(
         "SELECT * FROM employee",
@@ -15,12 +18,11 @@ grabEmpArr = () => {
                 currEmp = (emp.first_name + " " + emp.last_name)
                 employeeArr.push(currEmp)
             });
-            // connection.end()
         }
     )
     grabRoleArr()
 }
-grabRoleArr = () => { // This one doesn't have connection.end
+grabRoleArr = () => {
     connection.query(
         "SELECT * FROM role",
         (err,res)=>{
@@ -29,17 +31,11 @@ grabRoleArr = () => { // This one doesn't have connection.end
                 currRole = role.title
                 roleArr.push(currRole)
             });
-            // connection.end()
         }
     )
 }
-let employeeArr = []
-let roleArr = []
-// grabEmpArr()
+endConnection = () => connection.end()
 
-endConnection = () => {
-    connection.end()
-}
 
 starter = () => {
     grabEmpArr()
@@ -86,7 +82,6 @@ addDep = () => {
                 if(err) throw err;
             }
         )
-        // connection.end();
         starter()
     })
 }
@@ -112,7 +107,6 @@ addRole = () => {
                 if (err) throw err;
             }
         )
-        // connection.end()
         starter()
     })
 }
@@ -139,7 +133,6 @@ addEmp = () => {
                 if (err) throw err;
             }
         )
-        // connection.end()
         starter()
     })
 }
@@ -157,14 +150,11 @@ viewTable = () => {
             if (err) throw err;
             console.log("\n=========================================\n")
             console.table(res)
-            // console.log(res)
             console.log("\n=========================================\n")
-            // connection.end();
         })
         starter()
     })
 }
-
 
 // THIS CAN BE MADE INTO UPDATETABLE LATER ON
 updateRole = () => {
@@ -195,6 +185,5 @@ updateRole = () => {
 
         // )
     })
-
 }
 starter();
