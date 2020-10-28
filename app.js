@@ -15,12 +15,12 @@ grabEmpArr = () => {
                 currEmp = (emp.first_name + " " + emp.last_name)
                 employeeArr.push(currEmp)
             });
-            connection.end()
+            // connection.end()
         }
     )
     grabRoleArr()
 }
-grabRoleArr = () => {
+grabRoleArr = () => { // This one doesn't have connection.end
     connection.query(
         "SELECT * FROM role",
         (err,res)=>{
@@ -28,22 +28,26 @@ grabRoleArr = () => {
             res.forEach(role => {
                 currRole = role.title
                 roleArr.push(currRole)
-            })
+            });
+            // connection.end()
         }
     )
 }
 let employeeArr = []
 let roleArr = []
-grabEmpArr()
+// grabEmpArr()
 
+endConnection = () => {
+    connection.end()
+}
 
 starter = () => {
-    
+    grabEmpArr()
     inquirer.prompt({
         type: "list",
         message: "What would you like to do?",
         name: "choice",
-        choices: ["Add department","Add role","Add employee","View a table","Update an employees role"]
+        choices: ["Add department","Add role","Add employee","View a table","Update an employees role","Exit application"]
     }).then((response) => {
         choice = response.choice
         switch(choice){
@@ -63,7 +67,7 @@ starter = () => {
                 updateRole()
                 break;
             default:
-                starter()
+                endConnection()
         }
     })
 }
@@ -82,7 +86,7 @@ addDep = () => {
                 if(err) throw err;
             }
         )
-        connection.end();
+        // connection.end();
         starter()
     })
 }
@@ -108,7 +112,7 @@ addRole = () => {
                 if (err) throw err;
             }
         )
-        connection.end()
+        // connection.end()
         starter()
     })
 }
@@ -135,7 +139,7 @@ addEmp = () => {
                 if (err) throw err;
             }
         )
-        connection.end()
+        // connection.end()
         starter()
     })
 }
@@ -155,9 +159,9 @@ viewTable = () => {
             console.table(res)
             // console.log(res)
             console.log("\n=========================================\n")
-            connection.end();
+            // connection.end();
         })
-        // starter()
+        starter()
     })
 }
 
@@ -183,8 +187,9 @@ updateRole = () => {
         changeToRole = res.newRole
         console.log(empToChange)
         console.log(changeToRole)
+        starter()
+        // connection.end()
 
-        
         // let ask = connection.query(
         // "UPDATE role SET ? WHERE ?",
 
