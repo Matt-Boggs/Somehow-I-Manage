@@ -36,9 +36,8 @@ grabRoleArr = () => {
 }
 endConnection = () => connection.end()
 
-
 starter = () => {
-    grabEmpArr()
+    grabEmpArr();
     inquirer.prompt({
         type: "list",
         message: "What would you like to do?",
@@ -150,7 +149,7 @@ viewTable = () => {
             if (err) throw err;
             console.log("\n=========================================\n")
             console.table(res)
-            console.log("\n=========================================\n")
+            console.log("\n=========================================\n\n\n\n\n")
         })
         starter()
     })
@@ -178,11 +177,12 @@ updateRole = () => {
         console.log(empToChange)
         console.log(changeToRole)
         starter()
-        // connection.end()
 
-        // let ask = connection.query(
+        // connection.query(
         // "UPDATE role SET ? WHERE ?",
-
+        //     {
+                    // THIS IS WHERE I NEED TO USE THOSE IDS
+        //     }
         // )
     })
 }
