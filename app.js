@@ -9,6 +9,8 @@ var connection = mysql.createConnection(config)
 let employeeArr = []
 let roleArr = []
 
+// -- Dep id: sales,1/legal,2/accounting,3  ||  role id: manager,1-3/salesperson,4/lawyer,5/accountant,6
+
 grabEmpArr = () => {
     connection.query(
         "SELECT * FROM employee",
@@ -22,6 +24,7 @@ grabEmpArr = () => {
     )
     grabRoleArr()
 }
+
 grabRoleArr = () => {
     connection.query(
         "SELECT * FROM role",
@@ -34,6 +37,7 @@ grabRoleArr = () => {
         }
     )
 }
+
 endConnection = () => connection.end()
 
 starter = () => {
@@ -125,15 +129,17 @@ addEmp = () => {
     ]).then((res)=>{
         console.log(res)
         let newEmp = new Employee(res.firstName,res.lastName)
-        let ask = connection.query(
+        connection.query(
             "INSERT INTO employee SET ?",
             newEmp,
             (err, res)=>{
                 if (err) throw err;
+            starter()
+
             }
         )
-        starter()
     })
+
 }
 
 viewTable = () => {
@@ -178,12 +184,13 @@ updateRole = () => {
         console.log(changeToRole)
         starter()
 
-        // connection.query(
-        // "UPDATE role SET ? WHERE ?",
-        //     {
-                    // THIS IS WHERE I NEED TO USE THOSE IDS
-        //     }
-        // )
+        connection.query(
+        "UPDATE role SET ? WHERE ?",
+        [{"role id to be the id for selected role"},{"where name is the emmployee to change"}],
+        (err,res)=>{
+
+        }            
+        )
     })
 }
 starter();
