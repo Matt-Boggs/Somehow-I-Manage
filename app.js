@@ -6,10 +6,39 @@ const Role = require("./lib/Role")
 const Employee = require("./lib/Employee")
 var connection = mysql.createConnection(config)
 
-
+grabEmpArr = () => {
+    connection.query(
+        "SELECT * FROM employee",
+        (err,res)=>{
+            if (err) throw err;
+            res.forEach(emp => {
+                currEmp = (emp.first_name + " " + emp.last_name)
+                employeeArr.push(currEmp)
+            });
+            connection.end()
+        }
+    )
+    grabRoleArr()
+}
+grabRoleArr = () => {
+    connection.query(
+        "SELECT * FROM role",
+        (err,res)=>{
+            if (err) throw err;
+            res.forEach(role => {
+                currRole = role.title
+                roleArr.push(currRole)
+            })
+        }
+    )
+}
+let employeeArr = []
+let roleArr = []
+grabEmpArr()
 
 
 starter = () => {
+    
     inquirer.prompt({
         type: "list",
         message: "What would you like to do?",
@@ -123,8 +152,8 @@ viewTable = () => {
         let ask = connection.query("SELECT * FROM " + res.tbltype,(err,res)=>{
             if (err) throw err;
             console.log("\n=========================================\n")
-            // console.table(res)
-            console.log(res)
+            console.table(res)
+            // console.log(res)
             console.log("\n=========================================\n")
             connection.end();
         })
@@ -135,32 +164,32 @@ viewTable = () => {
 
 // THIS CAN BE MADE INTO UPDATETABLE LATER ON
 updateRole = () => {
-    let employeeArr = []
-    connection.query(
-        "SELECT * FROM employee",
-        (err,res)=>{
-            if (err) throw err;
-            res.forEach(emp => {
-                currEmp = (emp.first_name + " " + emp.last_name)
-                console.log(currEmp)
-                employeeArr.push(currEmp)
-            });
-            connection.end()
-
-    inquirer.prompt({
+    inquirer.prompt([
+        {
         type: "list",
         message: "Which employee are you updating?",
         name: "empUp",
         choices: employeeArr
-    }).then((res)=>{
+        },
+        {
+            type: "list",
+            message: "what will their new role be?",
+            name: "newRole",
+            choices: roleArr
+        }
+    ]).then((res)=>{
         console.log(res)
+        empToChange = res.empUp
+        changeToRole = res.newRole
+        console.log(empToChange)
+        console.log(changeToRole)
+
+        
         // let ask = connection.query(
         // "UPDATE role SET ? WHERE ?",
 
         // )
     })
-    
-})
 
 }
 starter();
