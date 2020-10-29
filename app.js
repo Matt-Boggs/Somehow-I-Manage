@@ -30,10 +30,7 @@ grabRoleArr = () => {
         "SELECT * FROM role",
         (err,res)=>{
             if (err) throw err;
-            res.forEach(role => {
-                currRole = role.title
-                roleArr.push(currRole)
-            });
+            res.forEach(role => {roleArr.push(role.title)});
         }
     )
 }
@@ -48,8 +45,7 @@ starter = () => {
         name: "choice",
         choices: ["Add department","Add role","Add employee","View a table","Update an employees role","Exit application"]
     }).then((response) => {
-        choice = response.choice
-        switch(choice){
+        switch(response.choice){
             case "Add department":
                 addDep()
                 break;
@@ -81,9 +77,7 @@ addDep = () => {
         let ask = connection.query(
             "INSERT INTO department SET ?",
             newDep,
-            (err,res)=>{
-                if(err) throw err;
-            }
+            (err,res)=>{if(err) throw err;}
         )
         starter()
     })
@@ -103,12 +97,10 @@ addRole = () => {
         }
     ]).then((res)=>{
         let newRole = new Role(res.title,res.salary)
-        let ask = connection.query(
+        connection.query(
             "INSERT INTO role SET ?",
             newRole,
-            (err, res)=>{
-                if (err) throw err;
-            }
+            (err,res)=>{if (err) throw err;}
         )
         starter()
     })
@@ -127,19 +119,14 @@ addEmp = () => {
             name: "lastName"
         }
     ]).then((res)=>{
-        console.log(res)
         let newEmp = new Employee(res.firstName,res.lastName)
         connection.query(
             "INSERT INTO employee SET ?",
             newEmp,
-            (err, res)=>{
-                if (err) throw err;
-            starter()
-
-            }
+            (err, res)=>{if (err) throw err;}
         )
+        starter()
     })
-
 }
 
 viewTable = () => {
@@ -151,7 +138,6 @@ viewTable = () => {
             choices: ["department","role","employee","All"]
         }
     ).then((res)=>{
-        
         switch(res.tbltype){
             case "All":
                 connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, manager.first_name AS manager_first, manager.last_name AS manager_last, role.salary, department.name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id",
@@ -175,7 +161,6 @@ viewTable = () => {
     })
 }
 
-// THIS CAN BE MADE INTO UPDATETABLE LATER ON
 updateRole = () => {
     inquirer.prompt([
         {
@@ -191,15 +176,10 @@ updateRole = () => {
             choices: roleArr
         }
     ]).then((res)=>{
-        console.log(res)
         empToChange = res.empUp
         ETCsplit = empToChange.split(" ")
-        console.log(ETCsplit)
         changeToRole = res.newRole
         roleChangeId = 0
-        console.log(empToChange)
-        console.log(changeToRole)
-        // starter()
         switch(changeToRole){
             case "Salesperson":
                 roleChangeId = 4
@@ -211,13 +191,11 @@ updateRole = () => {
                 roleChangeId = 6
                 break;
         }
-
         connection.query(
         'UPDATE employee SET ? WHERE ? AND ?',
         [{role_id: roleChangeId},{first_name: ETCsplit[0]},{last_name: ETCsplit[1]}],
         (err,res)=>{
             if (err) throw err;
-            console.log(res)
             starter()
         }            
         )
