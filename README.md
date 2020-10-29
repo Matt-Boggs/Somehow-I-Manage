@@ -4,17 +4,26 @@
 
 
 ## Info: 
-This project uses MySQL to keep track of employee teams
+This project uses MySQL and inquirer to both create and keep track of employees, their roles, and their departments.
 
 ## Table of Contents 
  [Installation](#Installation) || [Usage](#Usage) || [License](#License) || [Contributing](#Contributing) || [Tests](#Tests) || [Questions](#Questions)
 
 ### Installation:
- 
-
+ 1. Clone repo
+ 2. npm install
+ 3. node app.js
 
 ### Usage:
- 
+#### On open
+
+#### add department
+
+#### add role
+
+#### add employee
+
+#### view by
 
 
 ### License:
