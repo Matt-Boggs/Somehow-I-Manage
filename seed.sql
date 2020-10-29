@@ -10,7 +10,7 @@ CREATE TABLE department (
 CREATE TABLE role (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(30),
-    salary DECIMAL(10),
+    salary DECIMAL(10,2),
     department_id INT NOT NULL,
     FOREIGN KEY(department_id) REFERENCES department(id)
 );
@@ -27,7 +27,7 @@ CREATE TABLE employee (
 INSERT INTO department(name)
 VALUES ("Sales"),("Legal"),("Accounting");
 INSERT INTO role (title,salary,department_id)
-VALUES ("Manager",25.99,1),("Manager",25.99,2),("Manager",25.99,3),
+VALUES ("Sales manager",25.99,1),("Legal manager",25.99,2),("Accounting manager",25.99,3),
 ("Salesperson",18.50,1),("lawyer",28.00,2),("Accountant",23.50,3);
 INSERT INTO employee (first_name,last_name,role_id,manager_id)
 VALUES ("Matt","Boggs",1,NULL),("Jim","West",2,NULL),("Rose","Dawson",3,NULL),
