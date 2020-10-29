@@ -148,15 +148,29 @@ viewTable = () => {
             type: "list",
             message: "What would you like to view?",
             name: "tbltype",
-            choices: ["department","role","employee"]
+            choices: ["department","role","employee","All"]
         }
     ).then((res)=>{
-        let ask = connection.query("SELECT * FROM " + res.tbltype,(err,res)=>{
-            if (err) throw err;
-            console.log("\n=========================================\n")
-            console.table(res)
-            console.log("\n=========================================\n\n\n\n\n")
-        })
+        
+        switch(res.tbltype){
+            case "All":
+                connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, manager.first_name AS manager_first, manager.last_name AS manager_last, role.salary, department.name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id",
+                (err,res)=>{
+                    if (err) throw err
+                    console.log("\n=========================================\n")
+                    console.table(res)
+                    console.log("\n=========================================\n\n\n\n\n")
+                })
+                break;
+            default:
+                connection.query("SELECT * FROM " + res.tbltype,(err,res)=>{
+                    if (err) throw err;
+                    console.log("\n=========================================\n")
+                    console.table(res)
+                    console.log("\n=========================================\n\n\n\n\n")
+                })
+                break;
+        }
         starter()
     })
 }
@@ -179,16 +193,32 @@ updateRole = () => {
     ]).then((res)=>{
         console.log(res)
         empToChange = res.empUp
+        ETCsplit = empToChange.split(" ")
+        console.log(ETCsplit)
         changeToRole = res.newRole
+        roleChangeId = 0
         console.log(empToChange)
         console.log(changeToRole)
-        starter()
+        // starter()
+        switch(changeToRole){
+            case "Salesperson":
+                roleChangeId = 4
+                break;
+            case "Lawyer":
+                roleChangeId = 5
+                break;
+            case "Accountant":
+                roleChangeId = 6
+                break;
+        }
 
         connection.query(
-        "UPDATE role SET ? WHERE ?",
-        [{"role id to be the id for selected role"},{"where name is the emmployee to change"}],
+        'UPDATE employee SET ? WHERE ? AND ?',
+        [{role_id: roleChangeId},{first_name: ETCsplit[0]},{last_name: ETCsplit[1]}],
         (err,res)=>{
-
+            if (err) throw err;
+            console.log(res)
+            starter()
         }            
         )
     })
