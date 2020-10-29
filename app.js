@@ -5,6 +5,9 @@ const Department = require("./lib/Department")
 const Role = require("./lib/Role")
 const Employee = require("./lib/Employee")
 var connection = mysql.createConnection(config)
+var figlet = require('figlet');
+
+
 
 let employeeArr = []
 let roleArr = []
@@ -35,6 +38,18 @@ grabRoleArr = () => {
     )
 }
 
+openItUp = () => {
+    figlet('SOMEHOW-I-MANAGE', function(err, data) {
+        if (err) {
+            console.log('Something went wrong...');
+            console.dir(err);
+            return;
+        }
+        console.log("\n============================")
+        console.log(data)
+        console.log("\n============================\n\n\n\n\n\n")
+    });
+}
 endConnection = () => connection.end()
 
 starter = () => {
@@ -100,7 +115,7 @@ addRole = () => {
         connection.query(
             "INSERT INTO role SET ?",
             newRole,
-            (err,res)=>{if (err) throw err;}
+            (err,res)=>{if (err) throw err}
         )
         starter()
     })
@@ -181,6 +196,15 @@ updateRole = () => {
         changeToRole = res.newRole
         roleChangeId = 0
         switch(changeToRole){
+            case "Sales manager":
+                roleChangeId = 1
+                break;
+            case "Legal manager":
+                roleChangeId = 2
+                break;
+            case "Accounting manager":
+                roleChangeId = 3
+                break;
             case "Salesperson":
                 roleChangeId = 4
                 break;
@@ -201,4 +225,5 @@ updateRole = () => {
         )
     })
 }
+openItUp();
 starter();
