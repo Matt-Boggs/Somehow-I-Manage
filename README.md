@@ -18,11 +18,11 @@ This project uses MySQL and inquirer to both create and keep track of employees,
 #### On open
 ![itBegins](./Assets/onOpen.PNG)
 #### add department
-
+![addDep](./Assets/addDep.gif)
 #### add role
 
 #### add employee
-
+![addEmp](./Assets.addEmp.gif)
 
 
 ### License:
