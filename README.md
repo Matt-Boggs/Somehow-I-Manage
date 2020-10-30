@@ -22,7 +22,7 @@ This project uses MySQL and inquirer to both create and keep track of employees,
 #### add role
 
 #### add employee
-![addEmp](./Assets.addEmp.gif)
+![addEmp](./Assets/addEmp.gif)
 #### update employee
 ![update](./Assets/update.gif)
 ### License:
