@@ -23,8 +23,8 @@ This project uses MySQL and inquirer to both create and keep track of employees,
 
 #### add employee
 ![addEmp](./Assets.addEmp.gif)
-
-
+#### update employee
+![update](./Assets/update.gif)
 ### License:
  This project is licensed under the MIT license.
 
