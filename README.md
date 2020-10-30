@@ -16,14 +16,13 @@ This project uses MySQL and inquirer to both create and keep track of employees,
 
 ### Usage:
 #### On open
-
+![itBegins](./Assets/onOpen.PNG)
 #### add department
 
 #### add role
 
 #### add employee
 
-#### view by
 
 
 ### License:
